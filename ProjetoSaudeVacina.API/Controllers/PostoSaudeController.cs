@@ -20,6 +20,7 @@ namespace ProjetoSaudeVacina.API.Controllers
             _postoSaudeRepository = postoSaudeRepository;
 
             // Trecho de código para teste..
+            // Remover quando em produção..
             if (_postoSaudeRepository.GetAll().Count() == 0)
             {
                 _postoSaudeRepository.Add(
