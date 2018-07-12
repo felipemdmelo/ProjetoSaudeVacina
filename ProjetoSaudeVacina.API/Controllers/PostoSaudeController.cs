@@ -52,13 +52,13 @@ namespace ProjetoSaudeVacina.API.Controllers
 
         // POST api/PostoSaude
         [HttpPost]
-        public void Post([FromBody]PostoSaude value)
+        public void Post([FromBody]PostoSaude item)
         {
         }
 
         // PUT api/PostoSaude/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]PostoSaude value)
+        public void Put(int id, [FromBody]PostoSaude item)
         {
         }
 
