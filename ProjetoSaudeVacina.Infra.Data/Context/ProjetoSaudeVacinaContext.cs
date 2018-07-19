@@ -15,7 +15,7 @@ namespace ProjetoSaudeVacina.Infra.Data.Context
 
         public ProjetoSaudeVacinaContext(DbContextOptions<ProjetoSaudeVacinaContext> options) : base(options)
         {
-            Database.Migrate();
+            //Database.Migrate();
         }
     }
 }
