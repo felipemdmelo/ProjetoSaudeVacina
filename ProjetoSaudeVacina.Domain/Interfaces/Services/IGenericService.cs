@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjetoSaudeVacina.Domain.Interfaces.Repositories
+namespace ProjetoSaudeVacina.Domain.Interfaces.Services
 {
-    public interface IGenericRepository<TEntity> where TEntity : class
+    public interface IGenericService<TEntity> where TEntity : class
     {
         Task AddAsync(TEntity obj);
         Task<TEntity> GetByIdAsync(long? id);

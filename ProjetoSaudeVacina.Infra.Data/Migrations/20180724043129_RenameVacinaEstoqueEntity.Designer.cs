@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjetoSaudeVacina.Infra.Data.Context;
 
 namespace ProjetoSaudeVacina.Infra.Data.Migrations
 {
     [DbContext(typeof(ProjetoSaudeVacinaContext))]
-    partial class ProjetoSaudeVacinaContextModelSnapshot : ModelSnapshot
+    [Migration("20180724043129_RenameVacinaEstoqueEntity")]
+    partial class RenameVacinaEstoqueEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

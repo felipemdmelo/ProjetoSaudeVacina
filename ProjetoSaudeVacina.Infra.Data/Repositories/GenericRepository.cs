@@ -1,10 +1,12 @@
-﻿using ProjetoSaudeVacina.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjetoSaudeVacina.Domain.Entities;
 using ProjetoSaudeVacina.Domain.Interfaces.Repositories;
 using ProjetoSaudeVacina.Infra.Data.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ProjetoSaudeVacina.Infra.Data.Repositories
 {
@@ -17,12 +19,12 @@ namespace ProjetoSaudeVacina.Infra.Data.Repositories
             _db = db;
         }
 
-        public void Add(TEntity obj)
+        public async Task AddAsync(TEntity obj)
         {
             (obj as AbstractEntity).DataCadastro = DateTime.Now;
 
             _db.Set<TEntity>().Add(obj);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
         public void Dispose()
@@ -30,26 +32,26 @@ namespace ProjetoSaudeVacina.Infra.Data.Repositories
             _db.Dispose();
         }
 
-        public List<TEntity> GetAll()
+        public async Task<List<TEntity>> GetAllAsync()
         {
-            return _db.Set<TEntity>().ToList();
+            return await _db.Set<TEntity>().ToListAsync();
         }
 
-        public TEntity GetById(long id)
+        public async Task<TEntity> GetByIdAsync(long? id)
         {
-            return _db.Set<TEntity>().Find(id);
+            return await _db.Set<TEntity>().FindAsync(id);
         }
 
-        public void Remove(TEntity obj)
+        public async Task RemoveAsync(TEntity obj)
         {
             _db.Set<TEntity>().Remove(obj);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void Update(TEntity obj)
+        public async Task UpdateAsync(TEntity obj)
         {
             _db.Set<TEntity>().Update(obj);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
     }
 }

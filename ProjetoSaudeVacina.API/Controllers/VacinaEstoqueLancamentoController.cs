@@ -1,59 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ProjetoSaudeVacina.API.Models.PostoSaude.In;
-using ProjetoSaudeVacina.API.Models.PostoSaude.Out;
+using ProjetoSaudeVacina.API.Models.VacinaEstoqueLancamento.In;
+using ProjetoSaudeVacina.API.Models.VacinaEstoqueLancamento.Out;
 using ProjetoSaudeVacina.Domain.Entities;
 using ProjetoSaudeVacina.Domain.Interfaces.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProjetoSaudeVacina.API.Controllers
 {
     [Produces("application/json")]
-    [Route("api/PostoSaude")]
-    public class PostoSaudeController : ControllerBase
+    [Route("api/Lancamento")]
+    public class VacinaEstoqueLancamentoController : ControllerBase
     {
         // Services..
-        private readonly IPostoSaudeService _postoSaudeService;
+        private readonly IVacinaEstoqueLancamentoService _vacinaEstoqueLancamentoService;
 
-        public PostoSaudeController(IPostoSaudeService postoSaudeService)
+        public VacinaEstoqueLancamentoController(IVacinaEstoqueLancamentoService vacinaEstoqueLancamentoService)
         {
             // Services..
-            _postoSaudeService = postoSaudeService;
+            _vacinaEstoqueLancamentoService = vacinaEstoqueLancamentoService;
         }
 
-        // GET api/PostoSaude
+        // GET api/Lancamento
         [HttpGet]
-        public async Task<ActionResult<List<PostoSaudeGetOutViewModel>>> Get()
+        public async Task<ActionResult<List<VacinaEstoqueLancamentoGetOutViewModel>>> Get()
         {
-            var item = await _postoSaudeService.GetAllAsync();
+            var item = await _vacinaEstoqueLancamentoService.GetAllAsync();
+            var posto = item[0].PostoSaude;
             if (item == null)
                 return NotFound();
 
-            var result = Mapper.Map<List<PostoSaudeGetOutViewModel>>(item);
+            var result = Mapper.Map<List<VacinaEstoqueLancamentoGetOutViewModel>>(item);
 
             return result;
         }
 
-        // GET api/PostoSaude/5
+        // GET api/Lancamento/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PostoSaudeGetOutViewModel>> Get(long id)
+        public async Task<ActionResult<VacinaEstoqueLancamentoGetOutViewModel>> Get(long id)
         {
-            var item = await _postoSaudeService.GetByIdAsync(id);
+            var item = await _vacinaEstoqueLancamentoService.GetByIdAsync(id);
             if (item == null)
                 return NotFound();
 
-            var result = Mapper.Map<PostoSaudeGetOutViewModel>(item);
+            var result = Mapper.Map<VacinaEstoqueLancamentoGetOutViewModel>(item);
 
             return result;
         }
 
-        // POST api/PostoSaude
+        // POST api/Lancamento
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody]PostoSaudePostInViewModel item)
+        public async Task<ActionResult> Post([FromBody]VacinaEstoqueLancamentoPostInViewModel item)
         {
-            var entity = Mapper.Map<PostoSaude>(item);
+            var entity = Mapper.Map<VacinaEstoqueLancamento>(item);
 
             // Verifica se a o model está preenchido corretamente..
             if (!ModelState.IsValid)
@@ -63,41 +64,7 @@ namespace ProjetoSaudeVacina.API.Controllers
 
             try
             {
-                await _postoSaudeService.AddAsync(entity);
-            }
-            catch(Exception)
-            {
-                return BadRequest(
-                    new {
-                        Error = "Ocorreu um erro para salvar os dados. Tente novamente mais tarde! Se o problema persistir entre em contato com o suporte técnico."
-                    }
-                );
-            }
-
-            return Ok();
-        }
-
-        // PUT api/PostoSaude/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(long id, [FromBody]PostoSaudePutInViewModel item)
-        {
-            var entity = await _postoSaudeService.GetByIdAsync(id);
-            if (entity == null)
-                return NotFound();
-
-            // entity = Mapper.Map<PostoSaude>(item); Analisar o mapper, para que faça uma mesclagem entre entity e item..
-            entity.Latitude = item.Latitude;
-            entity.Longitude = item.Longitude;
-
-            // Verifica se a o model está preenchido corretamente..
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                await _postoSaudeService.UpdateAsync(entity);
+                await _vacinaEstoqueLancamentoService.AddAsync(entity);
             }
             catch (Exception)
             {
@@ -112,17 +79,51 @@ namespace ProjetoSaudeVacina.API.Controllers
             return Ok();
         }
 
-        // DELETE api/PostoSaude/5
+        // PUT api/Lancamento/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(long id, [FromBody]VacinaEstoqueLancamentoPutInViewModel item)
+        {
+            var entity = await _vacinaEstoqueLancamentoService.GetByIdAsync(id);
+            if (entity == null)
+                return NotFound();
+
+            // entity = Mapper.Map<Vacina>(item); Analisar o mapper, para que faça uma mesclagem entre entity e item..
+            //entity.Nome = item.Nome;
+
+            // Verifica se a o model está preenchido corretamente..
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _vacinaEstoqueLancamentoService.UpdateAsync(entity);
+            }
+            catch (Exception)
+            {
+                return BadRequest(
+                    new
+                    {
+                        Error = "Ocorreu um erro para salvar os dados. Tente novamente mais tarde! Se o problema persistir entre em contato com o suporte técnico."
+                    }
+                );
+            }
+
+            return Ok();
+        }
+
+        // DELETE api/Lancamento/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var entity = await _postoSaudeService.GetByIdAsync(id);
+            var entity = await _vacinaEstoqueLancamentoService.GetByIdAsync(id);
             if (entity == null)
                 return NotFound();
 
             try
             {
-                await _postoSaudeService.RemoveAsync(entity);
+                await _vacinaEstoqueLancamentoService.RemoveAsync(entity);
             }
             catch (Exception)
             {

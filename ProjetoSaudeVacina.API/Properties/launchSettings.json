@@ -2,9 +2,13 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/ProjetoSaudeVacina.API",
+      "sslPort": 0
+    },
     "iisExpress": {
-      "applicationUrl": "https://localhost:44362/",
-      "sslPort": 44362
+      "applicationUrl": "http://localhost:5000",
+      "sslPort": 0
     }
   },
   "profiles": {
@@ -17,9 +21,9 @@
       }
     },
     "ProjetoSaudeVacina.API": {
-      "commandName": "Project",
+      "commandName": "IIS",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "api/PostoSaude",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

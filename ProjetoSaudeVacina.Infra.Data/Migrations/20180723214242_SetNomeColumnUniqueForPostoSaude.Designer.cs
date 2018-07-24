@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjetoSaudeVacina.Infra.Data.Context;
 
 namespace ProjetoSaudeVacina.Infra.Data.Migrations
 {
     [DbContext(typeof(ProjetoSaudeVacinaContext))]
-    partial class ProjetoSaudeVacinaContextModelSnapshot : ModelSnapshot
+    [Migration("20180723214242_SetNomeColumnUniqueForPostoSaude")]
+    partial class SetNomeColumnUniqueForPostoSaude
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,13 +36,16 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
                         .HasMaxLength(30);
 
                     b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(30);
+                        .IsRequired();
+
+                    b.Property<long?>("VacinaEstoqueId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Nome")
                         .IsUnique();
+
+                    b.HasIndex("VacinaEstoqueId");
 
                     b.ToTable("PostoSaude");
                 });
@@ -54,18 +59,14 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
                     b.Property<DateTime>("DataCadastro");
 
                     b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(30);
+                        .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Nome")
-                        .IsUnique();
 
                     b.ToTable("Vacina");
                 });
 
-            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoqueLancamento", b =>
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoque", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -73,28 +74,46 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
 
                     b.Property<DateTime>("DataCadastro");
 
-                    b.Property<long>("PostoSaudeId");
+                    b.HasKey("Id");
+
+                    b.ToTable("VacinaEstoque");
+                });
+
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoqueItem", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DataCadastro");
 
                     b.Property<int>("Quantidade");
 
-                    b.Property<int>("Tipo");
+                    b.Property<long>("VacinaEstoqueId");
 
                     b.Property<long>("VacinaId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostoSaudeId");
+                    b.HasIndex("VacinaEstoqueId");
 
                     b.HasIndex("VacinaId");
 
-                    b.ToTable("VacinaEstoqueLancamento");
+                    b.ToTable("VacinaEstoqueItem");
                 });
 
-            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoqueLancamento", b =>
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.PostoSaude", b =>
                 {
-                    b.HasOne("ProjetoSaudeVacina.Domain.Entities.PostoSaude", "PostoSaude")
-                        .WithMany("VacinaEstoques")
-                        .HasForeignKey("PostoSaudeId")
+                    b.HasOne("ProjetoSaudeVacina.Domain.Entities.VacinaEstoque", "VacinaEstoque")
+                        .WithMany()
+                        .HasForeignKey("VacinaEstoqueId");
+                });
+
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoqueItem", b =>
+                {
+                    b.HasOne("ProjetoSaudeVacina.Domain.Entities.VacinaEstoque", "VacinaEstoque")
+                        .WithMany("VacinaEstoqueItens")
+                        .HasForeignKey("VacinaEstoqueId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ProjetoSaudeVacina.Domain.Entities.Vacina", "Vacina")

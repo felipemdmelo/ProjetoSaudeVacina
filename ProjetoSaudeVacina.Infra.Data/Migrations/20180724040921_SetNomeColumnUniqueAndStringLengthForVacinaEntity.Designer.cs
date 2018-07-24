@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjetoSaudeVacina.Infra.Data.Context;
 
 namespace ProjetoSaudeVacina.Infra.Data.Migrations
 {
     [DbContext(typeof(ProjetoSaudeVacinaContext))]
-    partial class ProjetoSaudeVacinaContextModelSnapshot : ModelSnapshot
+    [Migration("20180724040921_SetNomeColumnUniqueAndStringLengthForVacinaEntity")]
+    partial class SetNomeColumnUniqueAndStringLengthForVacinaEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +67,7 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
                     b.ToTable("Vacina");
                 });
 
-            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoqueLancamento", b =>
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoque", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,26 +77,49 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
 
                     b.Property<long>("PostoSaudeId");
 
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostoSaudeId");
+
+                    b.ToTable("VacinaEstoque");
+                });
+
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoqueItem", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DataCadastro");
+
                     b.Property<int>("Quantidade");
 
-                    b.Property<int>("Tipo");
+                    b.Property<long>("VacinaEstoqueId");
 
                     b.Property<long>("VacinaId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostoSaudeId");
+                    b.HasIndex("VacinaEstoqueId");
 
                     b.HasIndex("VacinaId");
 
-                    b.ToTable("VacinaEstoqueLancamento");
+                    b.ToTable("VacinaEstoqueItem");
                 });
 
-            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoqueLancamento", b =>
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoque", b =>
                 {
                     b.HasOne("ProjetoSaudeVacina.Domain.Entities.PostoSaude", "PostoSaude")
                         .WithMany("VacinaEstoques")
                         .HasForeignKey("PostoSaudeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoqueItem", b =>
+                {
+                    b.HasOne("ProjetoSaudeVacina.Domain.Entities.VacinaEstoque", "VacinaEstoque")
+                        .WithMany("VacinaEstoqueItens")
+                        .HasForeignKey("VacinaEstoqueId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ProjetoSaudeVacina.Domain.Entities.Vacina", "Vacina")

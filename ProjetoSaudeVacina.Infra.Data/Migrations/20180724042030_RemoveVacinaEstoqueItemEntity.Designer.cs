@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjetoSaudeVacina.Infra.Data.Context;
 
 namespace ProjetoSaudeVacina.Infra.Data.Migrations
 {
     [DbContext(typeof(ProjetoSaudeVacinaContext))]
-    partial class ProjetoSaudeVacinaContextModelSnapshot : ModelSnapshot
+    [Migration("20180724042030_RemoveVacinaEstoqueItemEntity")]
+    partial class RemoveVacinaEstoqueItemEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +67,7 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
                     b.ToTable("Vacina");
                 });
 
-            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoqueLancamento", b =>
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoque", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,8 +79,6 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
 
                     b.Property<int>("Quantidade");
 
-                    b.Property<int>("Tipo");
-
                     b.Property<long>("VacinaId");
 
                     b.HasKey("Id");
@@ -87,10 +87,10 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
 
                     b.HasIndex("VacinaId");
 
-                    b.ToTable("VacinaEstoqueLancamento");
+                    b.ToTable("VacinaEstoque");
                 });
 
-            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoqueLancamento", b =>
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoque", b =>
                 {
                     b.HasOne("ProjetoSaudeVacina.Domain.Entities.PostoSaude", "PostoSaude")
                         .WithMany("VacinaEstoques")

@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using ProjetoSaudeVacina.Domain.Entities;
 using ProjetoSaudeVacina.Domain.Interfaces.Repositories;
+using ProjetoSaudeVacina.Domain.Interfaces.Services;
+using ProjetoSaudeVacina.Domain.Services;
 using ProjetoSaudeVacina.Infra.Data.Context;
 using ProjetoSaudeVacina.Infra.Data.Repositories;
+using AutoMapper;
+using ProjetoSaudeVacina.API.Models.PostoSaude.Out;
+using ProjetoSaudeVacina.API.Models.PostoSaude.In;
+using ProjetoSaudeVacina.API.Models.Vacina.Out;
+using ProjetoSaudeVacina.API.Models.Vacina.In;
+using ProjetoSaudeVacina.API.Models.VacinaEstoqueLancamento.Out;
+using ProjetoSaudeVacina.API.Models.VacinaEstoqueLancamento.In;
 
 namespace ProjetoSaudeVacina.API
 {
@@ -28,12 +32,20 @@ namespace ProjetoSaudeVacina.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            ConfigureAutoMapper();
 
-            services.AddDbContext<ProjetoSaudeVacinaContext>(
-            options => options.UseSqlServer(Configuration.GetConnectionString("ProjetoSaudeVacinaContext")));
+            services.AddDbContext<ProjetoSaudeVacinaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjetoSaudeVacinaContext")));
 
             // Injeções de dependência..
+            // Repositories..
             services.AddTransient<IPostoSaudeRepository, PostoSaudeRepository>();
+            services.AddTransient<IVacinaRepository, VacinaRepository>();
+            services.AddTransient<IVacinaEstoqueLancamentoRepository, VacinaEstoqueLancamentoRepository>();
+
+            // Services..
+            services.AddTransient<IPostoSaudeService, PostoSaudeService>();
+            services.AddTransient<IVacinaService, VacinaService>();
+            services.AddTransient<IVacinaEstoqueLancamentoService, VacinaEstoqueLancamentoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +57,27 @@ namespace ProjetoSaudeVacina.API
             }
 
             app.UseMvc();
+        }
+
+        private void ConfigureAutoMapper()
+        {
+            Mapper.Initialize(x =>
+            {
+                // Mapeamentos da entidade PostoSaude..
+                x.CreateMap<PostoSaude, PostoSaudeGetOutViewModel>();                
+                x.CreateMap<PostoSaudePostInViewModel, PostoSaude>();
+                x.CreateMap<PostoSaudePutInViewModel, PostoSaude>();
+
+                // Mapeamentos da entidade Vacina..
+                x.CreateMap<Vacina, VacinaGetOutViewModel>();
+                x.CreateMap<VacinaPostInViewModel, Vacina>();
+                x.CreateMap<VacinaPutInViewModel, Vacina>();
+
+                // Mapeamentos da entidade VacinaEstoqueLancamento..
+                x.CreateMap<VacinaEstoqueLancamento, VacinaEstoqueLancamentoGetOutViewModel>();
+                x.CreateMap<VacinaEstoqueLancamentoPostInViewModel, VacinaEstoqueLancamento>();
+                x.CreateMap<VacinaEstoqueLancamentoPutInViewModel, VacinaEstoqueLancamento>();
+            });
         }
     }
 }
