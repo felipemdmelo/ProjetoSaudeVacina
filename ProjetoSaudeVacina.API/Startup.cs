@@ -16,6 +16,12 @@ using ProjetoSaudeVacina.API.Models.Vacina.Out;
 using ProjetoSaudeVacina.API.Models.Vacina.In;
 using ProjetoSaudeVacina.API.Models.VacinaEstoqueLancamento.Out;
 using ProjetoSaudeVacina.API.Models.VacinaEstoqueLancamento.In;
+using ProjetoSaudeVacina.API.Models.Endereco.In;
+using ProjetoSaudeVacina.API.Models.Endereco.Out;
+using ProjetoSaudeVacina.API.Models.Cidadao.Out;
+using ProjetoSaudeVacina.API.Models.Cidadao.In;
+using ProjetoSaudeVacina.API.Models.TecnicoEnfermagem.Out;
+using ProjetoSaudeVacina.API.Models.TecnicoEnfermagem.In;
 
 namespace ProjetoSaudeVacina.API
 {
@@ -34,16 +40,23 @@ namespace ProjetoSaudeVacina.API
             services.AddMvc();
             ConfigureAutoMapper();
 
-            services.AddDbContext<ProjetoSaudeVacinaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjetoSaudeVacinaContext")));
+            services.AddDbContext<ProjetoSaudeVacinaContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("ProjetoSaudeVacinaContext"));
+            });
 
             // Injeções de dependência..
             // Repositories..
+            services.AddTransient<ICidadaoRepository, CidadaoRepository>();
             services.AddTransient<IPostoSaudeRepository, PostoSaudeRepository>();
+            services.AddTransient<ITecnicoEnfermagemRepository, TecnicoEnfermagemRepository>();
             services.AddTransient<IVacinaRepository, VacinaRepository>();
             services.AddTransient<IVacinaEstoqueLancamentoRepository, VacinaEstoqueLancamentoRepository>();
 
             // Services..
+            services.AddTransient<ICidadaoService, CidadaoService>();
             services.AddTransient<IPostoSaudeService, PostoSaudeService>();
+            services.AddTransient<ITecnicoEnfermagemService, TecnicoEnfermagemService>();
             services.AddTransient<IVacinaService, VacinaService>();
             services.AddTransient<IVacinaEstoqueLancamentoService, VacinaEstoqueLancamentoService>();
         }
@@ -63,10 +76,25 @@ namespace ProjetoSaudeVacina.API
         {
             Mapper.Initialize(x =>
             {
+                // Mapeamentos da entidade Cidadao..
+                x.CreateMap<Cidadao, CidadaoGetOutViewModel>();
+                x.CreateMap<CidadaoPostInViewModel, Cidadao>();
+                x.CreateMap<CidadaoPutInViewModel, Cidadao>();
+
+                // Mapeamentos da entidade Endereco..
+                x.CreateMap<Endereco, EnderecoGetOutViewModel>();
+                x.CreateMap<EnderecoPostInViewModel, Endereco>();
+                x.CreateMap<EnderecoPutInViewModel, Endereco>();
+
                 // Mapeamentos da entidade PostoSaude..
-                x.CreateMap<PostoSaude, PostoSaudeGetOutViewModel>();                
+                x.CreateMap<PostoSaude, PostoSaudeGetOutViewModel>();
                 x.CreateMap<PostoSaudePostInViewModel, PostoSaude>();
                 x.CreateMap<PostoSaudePutInViewModel, PostoSaude>();
+
+                // Mapeamentos da entidade TecnicoEnfermagem..
+                x.CreateMap<TecnicoEnfermagem, TecnicoEnfermagemGetOutViewModel>();
+                x.CreateMap<TecnicoEnfermagemPostInViewModel, TecnicoEnfermagem>();
+                x.CreateMap<TecnicoEnfermagemPutInViewModel, TecnicoEnfermagem>();
 
                 // Mapeamentos da entidade Vacina..
                 x.CreateMap<Vacina, VacinaGetOutViewModel>();
@@ -75,8 +103,8 @@ namespace ProjetoSaudeVacina.API
 
                 // Mapeamentos da entidade VacinaEstoqueLancamento..
                 x.CreateMap<VacinaEstoqueLancamento, VacinaEstoqueLancamentoGetOutViewModel>();
-                x.CreateMap<VacinaEstoqueLancamentoPostInViewModel, VacinaEstoqueLancamento>();
-                x.CreateMap<VacinaEstoqueLancamentoPutInViewModel, VacinaEstoqueLancamento>();
+                x.CreateMap<VacinaEstoqueLancamentoAbastecimentoPostInViewModel, VacinaEstoqueLancamento>();
+                x.CreateMap<VacinaEstoqueLancamentoAplicacaoPostInViewModel, VacinaEstoqueLancamento>();
             });
         }
     }

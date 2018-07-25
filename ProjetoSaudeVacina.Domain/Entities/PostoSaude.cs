@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace ProjetoSaudeVacina.Domain.Entities
 {
@@ -17,6 +15,10 @@ namespace ProjetoSaudeVacina.Domain.Entities
         [StringLength(30)]
         public string Longitude { get; set; }
 
-        public virtual List<VacinaEstoqueLancamento> VacinaEstoques { get; set; }
+        [Required]
+        public long EnderecoId { get; set; }
+        public virtual Endereco Endereco { get; set; }
+
+        public virtual List<VacinaEstoqueLancamento> VacinaEstoqueLancamentos { get; set; }
     }
 }

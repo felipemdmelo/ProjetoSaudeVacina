@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ProjetoSaudeVacina.API.Models.Endereco.In;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProjetoSaudeVacina.API.Models.PostoSaude.In
 {
@@ -17,5 +14,8 @@ namespace ProjetoSaudeVacina.API.Models.PostoSaude.In
 
         [StringLength(30)]
         public string Longitude { get; set; }
+
+        [Required]
+        public EnderecoPostInViewModel Endereco { get; set; }
     }
 }

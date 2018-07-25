@@ -19,6 +19,100 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.Endereco", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Bairro")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("CEP")
+                        .IsRequired()
+                        .HasMaxLength(8);
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Complemento")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("DataCadastro");
+
+                    b.Property<DateTime?>("DataInativacao");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsAtivo");
+
+                    b.Property<string>("Logradouro")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Numero")
+                        .IsRequired()
+                        .HasMaxLength(10);
+
+                    b.Property<string>("PontoReferencia")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Endereco");
+                });
+
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.Pessoa", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CPF")
+                        .IsRequired()
+                        .HasMaxLength(11);
+
+                    b.Property<DateTime>("DataCadastro");
+
+                    b.Property<DateTime?>("DataInativacao");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsAtivo");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("SobreNome")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CPF")
+                        .IsUnique();
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Pessoa");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Pessoa");
+                });
+
             modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.PostoSaude", b =>
                 {
                     b.Property<long>("Id")
@@ -26,6 +120,12 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DataCadastro");
+
+                    b.Property<DateTime?>("DataInativacao");
+
+                    b.Property<long>("EnderecoId");
+
+                    b.Property<bool>("IsAtivo");
 
                     b.Property<string>("Latitude")
                         .HasMaxLength(30);
@@ -38,6 +138,8 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
                         .HasMaxLength(30);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EnderecoId");
 
                     b.HasIndex("Nome")
                         .IsUnique();
@@ -52,6 +154,10 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DataCadastro");
+
+                    b.Property<DateTime?>("DataInativacao");
+
+                    b.Property<bool>("IsAtivo");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -73,6 +179,10 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
 
                     b.Property<DateTime>("DataCadastro");
 
+                    b.Property<DateTime?>("DataInativacao");
+
+                    b.Property<bool>("IsAtivo");
+
                     b.Property<long>("PostoSaudeId");
 
                     b.Property<int>("Quantidade");
@@ -90,17 +200,45 @@ namespace ProjetoSaudeVacina.Infra.Data.Migrations
                     b.ToTable("VacinaEstoqueLancamento");
                 });
 
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.Cidadao", b =>
+                {
+                    b.HasBaseType("ProjetoSaudeVacina.Domain.Entities.Pessoa");
+
+
+                    b.ToTable("Cidadao");
+
+                    b.HasDiscriminator().HasValue("Cidadao");
+                });
+
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.TecnicoEnfermagem", b =>
+                {
+                    b.HasBaseType("ProjetoSaudeVacina.Domain.Entities.Pessoa");
+
+
+                    b.ToTable("TecnicoEnfermagem");
+
+                    b.HasDiscriminator().HasValue("TecnicoEnfermagem");
+                });
+
+            modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.PostoSaude", b =>
+                {
+                    b.HasOne("ProjetoSaudeVacina.Domain.Entities.Endereco", "Endereco")
+                        .WithMany()
+                        .HasForeignKey("EnderecoId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("ProjetoSaudeVacina.Domain.Entities.VacinaEstoqueLancamento", b =>
                 {
                     b.HasOne("ProjetoSaudeVacina.Domain.Entities.PostoSaude", "PostoSaude")
-                        .WithMany("VacinaEstoques")
+                        .WithMany("VacinaEstoqueLancamentos")
                         .HasForeignKey("PostoSaudeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProjetoSaudeVacina.Domain.Entities.Vacina", "Vacina")
                         .WithMany()
                         .HasForeignKey("VacinaId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

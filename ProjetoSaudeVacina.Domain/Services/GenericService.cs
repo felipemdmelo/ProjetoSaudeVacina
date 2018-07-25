@@ -1,8 +1,8 @@
-﻿using ProjetoSaudeVacina.Domain.Interfaces.Repositories;
+﻿using ProjetoSaudeVacina.Domain.Entities;
+using ProjetoSaudeVacina.Domain.Interfaces.Repositories;
 using ProjetoSaudeVacina.Domain.Interfaces.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProjetoSaudeVacina.Domain.Services
@@ -36,13 +36,14 @@ namespace ProjetoSaudeVacina.Domain.Services
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task RemoveAsync(TEntity obj)
-        {
-            await _repository.RemoveAsync(obj);
-        }
-
         public async Task UpdateAsync(TEntity obj)
         {
+            await _repository.UpdateAsync(obj);
+        }
+
+        public async Task DisableAsync(TEntity obj)
+        {
+            (obj as AbstractEntity).Inativar();
             await _repository.UpdateAsync(obj);
         }
     }

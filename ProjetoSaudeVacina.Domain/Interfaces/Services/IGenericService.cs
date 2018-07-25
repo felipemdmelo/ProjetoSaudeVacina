@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ProjetoSaudeVacina.Domain.Interfaces.Services
@@ -11,7 +9,7 @@ namespace ProjetoSaudeVacina.Domain.Interfaces.Services
         Task<TEntity> GetByIdAsync(long? id);
         Task<List<TEntity>> GetAllAsync();
         Task UpdateAsync(TEntity obj);
-        Task RemoveAsync(TEntity obj);
+        Task DisableAsync(TEntity obj);
         void Dispose();
     }
 }

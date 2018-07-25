@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ProjetoSaudeVacina.API.Models.AbstractEntity.Out;
 
 namespace ProjetoSaudeVacina.API.Models.Vacina.Out
 {
-    public class VacinaGetOutViewModel
+    public class VacinaGetOutViewModel : AbstractEntityGetOutViewModel
     {
-        public long Id { get; set; }
         public string Nome { get; set; }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoSaudeVacina.API.Models.Vacina.In;
 using ProjetoSaudeVacina.API.Models.Vacina.Out;
@@ -114,9 +112,9 @@ namespace ProjetoSaudeVacina.API.Controllers
             return Ok();
         }
 
-        // DELETE api/Vacina/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        // PUT api/Vacina/5/Inativar
+        [HttpPut("{id}/Inativar")]
+        public async Task<ActionResult> Disable(long id)
         {
             var entity = await _vacinaService.GetByIdAsync(id);
             if (entity == null)
@@ -124,7 +122,7 @@ namespace ProjetoSaudeVacina.API.Controllers
 
             try
             {
-                await _vacinaService.RemoveAsync(entity);
+                await _vacinaService.DisableAsync(entity);
             }
             catch (Exception)
             {

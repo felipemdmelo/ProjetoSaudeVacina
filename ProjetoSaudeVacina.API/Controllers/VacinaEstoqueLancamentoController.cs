@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProjetoSaudeVacina.API.Models.VacinaEstoqueLancamento.In;
 using ProjetoSaudeVacina.API.Models.VacinaEstoqueLancamento.Out;
 using ProjetoSaudeVacina.Domain.Entities;
+using ProjetoSaudeVacina.Domain.Entities.Enums;
 using ProjetoSaudeVacina.Domain.Interfaces.Services;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,6 @@ namespace ProjetoSaudeVacina.API.Controllers
         public async Task<ActionResult<List<VacinaEstoqueLancamentoGetOutViewModel>>> Get()
         {
             var item = await _vacinaEstoqueLancamentoService.GetAllAsync();
-            var posto = item[0].PostoSaude;
             if (item == null)
                 return NotFound();
 
@@ -50,11 +50,50 @@ namespace ProjetoSaudeVacina.API.Controllers
             return result;
         }
 
-        // POST api/Lancamento
-        [HttpPost]
-        public async Task<ActionResult> Post([FromBody]VacinaEstoqueLancamentoPostInViewModel item)
+        // POST api/Lancamento/Abastecimento
+        [HttpPost("Abastecimento")]
+        public async Task<ActionResult> PostAbastecimento([FromBody]VacinaEstoqueLancamentoAbastecimentoPostInViewModel item)
+        {
+            return await Post(item, LancamentoEnum.Abastecimento);
+        }
+
+        // POST api/Lancamento/Aplicacao
+        [HttpPost("Aplicacao")]
+        public async Task<ActionResult> PostAplicacao([FromBody]VacinaEstoqueLancamentoAplicacaoPostInViewModel item)
+        {
+            return await Post(item, LancamentoEnum.Aplicacao);
+        }
+
+        // PUT api/Lancamento/5/Inativar
+        [HttpPut("{id}/Inativar")]
+        public async Task<ActionResult> Disable(long id)
+        {
+            var entity = await _vacinaEstoqueLancamentoService.GetByIdAsync(id);
+            if (entity == null)
+                return NotFound();
+
+            try
+            {
+                await _vacinaEstoqueLancamentoService.DisableAsync(entity);
+            }
+            catch (Exception)
+            {
+                return BadRequest(
+                    new
+                    {
+                        Error = "Ocorreu um erro para salvar os dados. Tente novamente mais tarde! Se o problema persistir entre em contato com o suporte técnico."
+                    }
+                );
+            }
+
+            return Ok();
+        }
+
+        #region PRIVATE METHODS
+        private async Task<ActionResult> Post(VacinaEstoqueLancamentoPostInViewModel item, LancamentoEnum tipo)
         {
             var entity = Mapper.Map<VacinaEstoqueLancamento>(item);
+            entity.Tipo = tipo;
 
             // Verifica se a o model está preenchido corretamente..
             if (!ModelState.IsValid)
@@ -78,64 +117,6 @@ namespace ProjetoSaudeVacina.API.Controllers
 
             return Ok();
         }
-
-        // PUT api/Lancamento/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(long id, [FromBody]VacinaEstoqueLancamentoPutInViewModel item)
-        {
-            var entity = await _vacinaEstoqueLancamentoService.GetByIdAsync(id);
-            if (entity == null)
-                return NotFound();
-
-            // entity = Mapper.Map<Vacina>(item); Analisar o mapper, para que faça uma mesclagem entre entity e item..
-            //entity.Nome = item.Nome;
-
-            // Verifica se a o model está preenchido corretamente..
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                await _vacinaEstoqueLancamentoService.UpdateAsync(entity);
-            }
-            catch (Exception)
-            {
-                return BadRequest(
-                    new
-                    {
-                        Error = "Ocorreu um erro para salvar os dados. Tente novamente mais tarde! Se o problema persistir entre em contato com o suporte técnico."
-                    }
-                );
-            }
-
-            return Ok();
-        }
-
-        // DELETE api/Lancamento/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            var entity = await _vacinaEstoqueLancamentoService.GetByIdAsync(id);
-            if (entity == null)
-                return NotFound();
-
-            try
-            {
-                await _vacinaEstoqueLancamentoService.RemoveAsync(entity);
-            }
-            catch (Exception)
-            {
-                return BadRequest(
-                    new
-                    {
-                        Error = "Ocorreu um erro para salvar os dados. Tente novamente mais tarde! Se o problema persistir entre em contato com o suporte técnico."
-                    }
-                );
-            }
-
-            return Ok();
-        }
+        #endregion
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ProjetoSaudeVacina.Domain.Interfaces.Repositories
@@ -11,7 +9,6 @@ namespace ProjetoSaudeVacina.Domain.Interfaces.Repositories
         Task<TEntity> GetByIdAsync(long? id);
         Task<List<TEntity>> GetAllAsync();
         Task UpdateAsync(TEntity obj);
-        Task RemoveAsync(TEntity obj);
         void Dispose();
     }
 }

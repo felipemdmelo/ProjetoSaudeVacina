@@ -8,9 +8,29 @@
     <Compile Remove="Migrations\20180718220320_Teste.cs" />
     <Compile Remove="Migrations\20180724042654_RenameVacinaEstoqueEntity.cs" />
     <Compile Remove="Migrations\20180724042739_RenameVacinaEstoqueEntity.cs" />
+    <Compile Remove="Migrations\20180725142100_Endereco.cs" />
+    <Compile Remove="Migrations\20180725142430_Teste.cs" />
+    <Compile Remove="Migrations\20180725142808_Teste.cs" />
+    <Compile Remove="Migrations\20180725142949_AddingEnderecoAndUsuarioEntities.cs" />
+    <Compile Remove="Migrations\20180725143813_AddingEnderecoAndUsuarioEntities.cs" />
+    <Compile Remove="Migrations\20180725152156_AddingEnderecoAndUsuarioEntities.cs" />
+    <Compile Remove="Migrations\20180725154332_InitialMigration.cs" />
+    <Compile Remove="Migrations\20180725164448_Usuario.cs" />
+    <Compile Remove="Migrations\20180725164749_Usuario.cs" />
+    <Compile Remove="Migrations\20180725164847_Usuario.cs" />
+    <Compile Remove="Migrations\20180725165758_InitialMigration.cs" />
+    <Compile Remove="Migrations\20180725170902_AddPPessoaCidadaoTecnicoEnfermagem.cs" />
+    <Compile Remove="Migrations\20180725171048_AddPPessoaCidadaoTecnicoEnfermagem.cs" />
+    <Compile Remove="Migrations\20180725171603_AddPPessoaCidadaoTecnicoEnfermagem.cs" />
+    <Compile Remove="Migrations\20180725171644_AddPPessoaCidadaoTecnicoEnfermagem.cs" />
+    <Compile Remove="Migrations\20180725172250_AddPPessoaCidadaoTecnicoEnfermagem.cs" />
+    <Compile Remove="Migrations\20180725180056_Teste.cs" />
+    <Compile Remove="Migrations\20180725184209_AddStatusAndDataInativacaoForAbstractEntity.cs" />
+    <Compile Remove="Migrations\20180725184723_AddStatusAndDataInativacaoForAbstractEntity.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
   </ItemGroup>
 

@@ -65,11 +65,13 @@ namespace ProjetoSaudeVacina.API.Controllers
             {
                 await _postoSaudeService.AddAsync(entity);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
                 return BadRequest(
                     new {
-                        Error = "Ocorreu um erro para salvar os dados. Tente novamente mais tarde! Se o problema persistir entre em contato com o suporte técnico."
+                        Error = "Ocorreu um erro para salvar os dados. Tente novamente mais tarde! Se o problema persistir entre em contato com o suporte técnico.",
+                        ex.Message,
+                        ex.InnerException
                     }
                 );
             }
@@ -85,9 +87,7 @@ namespace ProjetoSaudeVacina.API.Controllers
             if (entity == null)
                 return NotFound();
 
-            // entity = Mapper.Map<PostoSaude>(item); Analisar o mapper, para que faça uma mesclagem entre entity e item..
-            entity.Latitude = item.Latitude;
-            entity.Longitude = item.Longitude;
+            entity = Mapper.Map(item, entity);
 
             // Verifica se a o model está preenchido corretamente..
             if (!ModelState.IsValid)
@@ -112,9 +112,9 @@ namespace ProjetoSaudeVacina.API.Controllers
             return Ok();
         }
 
-        // DELETE api/PostoSaude/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        // PUT api/PostoSaude/5/Inativar
+        [HttpPut("{id}/Inativar")]
+        public async Task<ActionResult> Disable(long id)
         {
             var entity = await _postoSaudeService.GetByIdAsync(id);
             if (entity == null)
@@ -122,7 +122,7 @@ namespace ProjetoSaudeVacina.API.Controllers
 
             try
             {
-                await _postoSaudeService.RemoveAsync(entity);
+                await _postoSaudeService.DisableAsync(entity);
             }
             catch (Exception)
             {

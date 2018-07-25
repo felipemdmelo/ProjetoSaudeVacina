@@ -14,6 +14,7 @@ namespace ProjetoSaudeVacina.Domain.Entities
         public virtual Vacina Vacina { get; set; }
 
         [Required]
+        [Range(1, 1000)]
         public int Quantidade { get; set; }
 
         [Required]
