@@ -22,6 +22,8 @@ using ProjetoSaudeVacina.API.Models.Cidadao.Out;
 using ProjetoSaudeVacina.API.Models.Cidadao.In;
 using ProjetoSaudeVacina.API.Models.TecnicoEnfermagem.Out;
 using ProjetoSaudeVacina.API.Models.TecnicoEnfermagem.In;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ProjetoSaudeVacina.API
 {
@@ -38,6 +40,10 @@ namespace ProjetoSaudeVacina.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                             .AllowAnyMethod()
+                                                              .AllowAnyHeader()));
+
             ConfigureAutoMapper();
 
             services.AddDbContext<ProjetoSaudeVacinaContext>(options =>
@@ -69,6 +75,7 @@ namespace ProjetoSaudeVacina.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("AllowAll"); // Este código habilita a requisição de qualquer origem (visa resolver o problema de CORS em ambiente de dev local)
             app.UseMvc();
         }
 
