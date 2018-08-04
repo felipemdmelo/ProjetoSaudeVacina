@@ -48,7 +48,7 @@ namespace ProjetoSaudeVacina.API
 
             services.AddDbContext<ProjetoSaudeVacinaContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("ProjetoSaudeVacinaContext"));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             // Injeções de dependência..
