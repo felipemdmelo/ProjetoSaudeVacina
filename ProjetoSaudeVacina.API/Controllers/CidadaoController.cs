@@ -137,5 +137,18 @@ namespace ProjetoSaudeVacina.API.Controllers
 
             return Ok();
         }
+
+        // POST api/Cidadao/Login
+        [HttpPost("Login")]
+        public async Task<ActionResult<CidadaoGetOutViewModel>> Login([FromBody]CidadaoLoginInViewModel item)
+        {
+            var model = await _cidadaoService.LoginAsync(item.Email, item.Senha);
+            if (model == null)
+                return NotFound();
+
+            var result = Mapper.Map<CidadaoGetOutViewModel>(model);
+
+            return result;
+        }
     }
 }
