@@ -14,6 +14,8 @@
 	- ProjetoSaudeVacina-Android: <ainda não publicado em loja>
 	- ProjetoSaudeVacina-iOS: <ainda não publicado em loja>
 
+########################################################################
+
 **Características técnicas do projeto**
 
 **Back-end:**
