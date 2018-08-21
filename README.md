@@ -1,4 +1,4 @@
-# Projeto Saude Vacina
+# Projeto Saúde Vacina
 
 **Sobre o projeto:**
 
