@@ -1,5 +1,18 @@
 # Projeto Saude Vacina
 
+**Sobre o projeto:**
+**- Descrição:**
+> Este é o meu projeto de conclusão do meu curso de especialização em desenvolvimento de aplicativos móveis. 
+
+**- Convite:**
+> Junte-se a mim neste projeto e vamos dar ferramentas à população para que todos possamos ter melhores condições de saúde
+
+**- Link dos projetos:**
+	- projetosaudevacina-ng: <ainda não publicado>
+	- ProjetoSaudeVacina.API: http://projetosaudevacinaapi.azurewebsites.net/api/PostoSaude (ex.: get PostoSaude)
+	- ProjetoSaudeVacina-Android: <ainda não publicado em loja>
+	- ProjetoSaudeVacina-iOS: <ainda não publicado em loja>
+
 **Características técnicas do projeto**
 
 **Back-end:**
