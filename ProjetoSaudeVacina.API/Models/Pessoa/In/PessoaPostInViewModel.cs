@@ -19,6 +19,7 @@ namespace ProjetoSaudeVacina.API.Models.Pessoa.In
 
         [Required]
         [MaxLength(50)]
+        [EmailAddress(ErrorMessage = "Email está com formato inválido")]
         public string Email { get; set; }
 
         [Required]
