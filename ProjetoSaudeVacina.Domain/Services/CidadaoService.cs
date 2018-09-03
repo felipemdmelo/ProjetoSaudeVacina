@@ -14,6 +14,11 @@ namespace ProjetoSaudeVacina.Domain.Services
             _repository = repository;
         }
 
+        public async Task<bool> ExistsByCPFOrEmail(string cpf, string email)
+        {
+            return await _repository.ExistsByCPFOrEmail(cpf, email);
+        }
+
         public async Task<Cidadao> LoginAsync(string email, string senha)
         {
             return await _repository.LoginAsync(email, senha);

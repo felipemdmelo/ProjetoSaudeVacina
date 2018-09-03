@@ -61,6 +61,17 @@ namespace ProjetoSaudeVacina.API.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Verificações pré cadastro..
+            if(await _cidadaoService.ExistsByCPFOrEmail(item.CPF, item.Email))
+            {
+                return BadRequest(
+                    new
+                    {
+                        Error = "Já existe um cadastro com este CPF e/ou Email."
+                    }
+                );
+            }
+
             try
             {
                 await _cidadaoService.AddAsync(entity);
