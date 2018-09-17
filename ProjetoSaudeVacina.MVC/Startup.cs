@@ -12,7 +12,10 @@ using ProjetoSaudeVacina.Domain.Interfaces.Services;
 using ProjetoSaudeVacina.Domain.Services;
 using ProjetoSaudeVacina.Infra.Data.Context;
 using ProjetoSaudeVacina.Infra.Data.Repositories;
+using ProjetoSaudeVacina.MVC.Models.Endereco.In;
+using ProjetoSaudeVacina.MVC.Models.PostoSaude.In;
 using ProjetoSaudeVacina.MVC.Models.Vacina.In;
+using ProjetoSaudeVacina.MVC.Models.Vacina.Out;
 
 namespace ProjetoSaudeVacina.MVC
 {
@@ -48,9 +51,11 @@ namespace ProjetoSaudeVacina.MVC
             // Injeções de dependência..
             // Repositories..
             services.AddTransient<IVacinaRepository, VacinaRepository>();
-            
+            services.AddTransient<IPostoSaudeRepository, PostoSaudeRepository>();
+
             // Services..
             services.AddTransient<IVacinaService, VacinaService>();
+            services.AddTransient<IPostoSaudeService, PostoSaudeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,9 +88,16 @@ namespace ProjetoSaudeVacina.MVC
             Mapper.Initialize(x =>
             {
                 // Mapeamentos da entidade Vacina..
-                //x.CreateMap<Vacina, VacinaGetOutViewModel>();
                 x.CreateMap<VacinaPostInViewModel, Vacina>();
-                //x.CreateMap<VacinaPutInViewModel, Vacina>();
+                x.CreateMap<VacinaPutInViewModel, Vacina>();
+
+                // Mapeamentos da entidade PostoSaude..
+                x.CreateMap<PostoSaudePostInViewModel, PostoSaude>();
+                x.CreateMap<PostoSaudePutInViewModel, PostoSaude>();
+
+                // Mapeamentos da entidade Endereco..
+                x.CreateMap<EnderecoPostInViewModel, Endereco>();
+                x.CreateMap<EnderecoPutInViewModel, Endereco>();
             });
         }
     }
