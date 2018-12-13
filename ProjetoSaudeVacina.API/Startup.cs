@@ -24,6 +24,8 @@ using ProjetoSaudeVacina.API.Models.TecnicoEnfermagem.Out;
 using ProjetoSaudeVacina.API.Models.TecnicoEnfermagem.In;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.AspNetCore.Mvc;
+using ProjetoSaudeVacina.Domain.Interfaces.Apps;
+using ProjetoSaudeVacina.Application.Apps;
 
 namespace ProjetoSaudeVacina.API
 {
@@ -65,6 +67,9 @@ namespace ProjetoSaudeVacina.API
             services.AddTransient<ITecnicoEnfermagemService, TecnicoEnfermagemService>();
             services.AddTransient<IVacinaService, VacinaService>();
             services.AddTransient<IVacinaEstoqueLancamentoService, VacinaEstoqueLancamentoService>();
+
+            // Apps..
+            services.AddTransient<ICidadaoApp, CidadaoApp>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

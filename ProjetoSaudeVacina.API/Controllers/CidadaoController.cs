@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProjetoSaudeVacina.API.Models.Cidadao.In;
 using ProjetoSaudeVacina.API.Models.Cidadao.Out;
 using ProjetoSaudeVacina.Domain.Entities;
+using ProjetoSaudeVacina.Domain.Exceptions;
+using ProjetoSaudeVacina.Domain.Interfaces.Apps;
 using ProjetoSaudeVacina.Domain.Interfaces.Services;
 
 namespace ProjetoSaudeVacina.API.Controllers
@@ -14,11 +16,16 @@ namespace ProjetoSaudeVacina.API.Controllers
     [Route("api/Cidadao")]
     public class CidadaoController : ControllerBase
     {
+        // Apps..
+        private readonly ICidadaoApp _cidadaoApp;
+
         // Services..
         private readonly ICidadaoService _cidadaoService;
 
-        public CidadaoController(ICidadaoService cidadaoService)
+        public CidadaoController(ICidadaoApp cidadaoApp, ICidadaoService cidadaoService)
         {
+            // Apps..
+            _cidadaoApp = cidadaoApp;
             // Services..
             _cidadaoService = cidadaoService;
         }
@@ -53,35 +60,32 @@ namespace ProjetoSaudeVacina.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody]CidadaoPostInViewModel item)
         {
-            var entity = Mapper.Map<Cidadao>(item);
-
-            // Verifica se a o model está preenchido corretamente..
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
+                var entity = Mapper.Map<Cidadao>(item);
 
-            // Verificações pré cadastro..
-            if(await _cidadaoService.ExistsByCPFOrEmail(item.CPF, item.Email))
+                // Verifica se a o model está preenchido corretamente..
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                await _cidadaoService.AddAsync(entity);
+            }
+            catch (AppException ex)
             {
                 return BadRequest(
                     new
                     {
-                        Error = "Já existe um cadastro com este CPF e/ou Email."
+                        Error = ex.Message,
+                        ex.InnerException
                     }
                 );
-            }
-
-            try
-            {
-                await _cidadaoService.AddAsync(entity);
             }
             catch (Exception ex)
             {
                 return BadRequest(
                     new
                     {
-                        Error = "Ocorreu um erro para salvar os dados. Tente novamente mais tarde! Se o problema persistir entre em contato com o suporte técnico.",
+                        Error = "Ocorreu um erro não tratado antes de inserir o registro. Tente novamente mais tarde! Se o problema persistir entre em contato com o suporte técnico.",
                         ex.Message,
                         ex.InnerException
                     }

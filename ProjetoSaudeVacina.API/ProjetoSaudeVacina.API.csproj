@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProjetoSaudeVacina.Application\ProjetoSaudeVacina.Application.csproj" />
     <ProjectReference Include="..\ProjetoSaudeVacina.Infra.Data\ProjetoSaudeVacina.Infra.Data.csproj" />
   </ItemGroup>
 

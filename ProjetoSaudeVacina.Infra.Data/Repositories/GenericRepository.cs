@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjetoSaudeVacina.Domain.Exceptions;
 using ProjetoSaudeVacina.Domain.Interfaces.Repositories;
 using ProjetoSaudeVacina.Infra.Data.Context;
 using System;
@@ -18,8 +19,16 @@ namespace ProjetoSaudeVacina.Infra.Data.Repositories
 
         public async Task AddAsync(TEntity obj)
         {
-            _db.Set<TEntity>().Add(obj);
-            await _db.SaveChangesAsync();
+            try
+            {
+                _db.Set<TEntity>().Add(obj);
+                await _db.SaveChangesAsync();
+            }
+            catch(Exception e)
+            {
+                var message = "Houve um erro para inserir o registro no banco. Tente novamente mais tarde, ou entre em contato com o suporte técnico!";
+                throw new InfraDataException(message, e);
+            }
         }
 
         public void Dispose()

@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjetoSaudeVacina.Infra.Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjetoSaudeVacina.API", "ProjetoSaudeVacina.API\ProjetoSaudeVacina.API.csproj", "{AB90DDFC-D0EC-4686-8C14-7718CB593B57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoSaudeVacina.MVC", "ProjetoSaudeVacina.MVC\ProjetoSaudeVacina.MVC.csproj", "{1263FE2A-109C-4321-BAC8-156F111ADE52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjetoSaudeVacina.MVC", "ProjetoSaudeVacina.MVC\ProjetoSaudeVacina.MVC.csproj", "{1263FE2A-109C-4321-BAC8-156F111ADE52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoSaudeVacina.Application", "ProjetoSaudeVacina.Application\ProjetoSaudeVacina.Application.csproj", "{E8F2EE6D-B103-4EF7-B1EE-97A68E2FC39F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{1263FE2A-109C-4321-BAC8-156F111ADE52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1263FE2A-109C-4321-BAC8-156F111ADE52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1263FE2A-109C-4321-BAC8-156F111ADE52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8F2EE6D-B103-4EF7-B1EE-97A68E2FC39F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8F2EE6D-B103-4EF7-B1EE-97A68E2FC39F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8F2EE6D-B103-4EF7-B1EE-97A68E2FC39F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8F2EE6D-B103-4EF7-B1EE-97A68E2FC39F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{90BF8E5D-7C8C-4FFE-995A-71302A329B1A} = {BD67217C-12BE-4C51-99F6-F86B07CBFA26}
 		{AB90DDFC-D0EC-4686-8C14-7718CB593B57} = {6994CEEE-8C28-4B22-AB82-74B0374E1AC9}
 		{1263FE2A-109C-4321-BAC8-156F111ADE52} = {69D6B5B8-34FD-47C1-BBE9-CE4663D460FA}
+		{E8F2EE6D-B103-4EF7-B1EE-97A68E2FC39F} = {58E22D25-C33B-4184-9CCD-5C439C43D3B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FBAF8F83-9BAE-4C4E-B16E-E02B5540571D}

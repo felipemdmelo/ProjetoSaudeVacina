@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using ProjetoSaudeVacina.Domain.Entities;
+using ProjetoSaudeVacina.Domain.Exceptions;
 using ProjetoSaudeVacina.Domain.Interfaces.Repositories;
 using ProjetoSaudeVacina.Domain.Interfaces.Services;
 
@@ -14,7 +16,15 @@ namespace ProjetoSaudeVacina.Domain.Services
             _repository = repository;
         }
 
-        public async Task<bool> ExistsByCPFOrEmail(string cpf, string email)
+        public async Task AddAsync(Cidadao obj)
+        {
+            if (await ExistsByCPFOrEmail(obj.CPF, obj.Email))
+                throw new DomainException("Já existe um cadastro com este CPF e/ou Email.");
+
+            await _repository.AddAsync(obj);
+        }
+
+        private async Task<bool> ExistsByCPFOrEmail(string cpf, string email)
         {
             return await _repository.ExistsByCPFOrEmail(cpf, email);
         }
