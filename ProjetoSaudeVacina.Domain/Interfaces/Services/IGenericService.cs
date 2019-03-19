@@ -5,7 +5,7 @@ namespace ProjetoSaudeVacina.Domain.Interfaces.Services
 {
     public interface IGenericService<TEntity> where TEntity : class
     {
-        //Task AddAsync(TEntity obj);
+        Task AddAsync(TEntity obj);
         Task<TEntity> GetByIdAsync(long? id);
         Task<List<TEntity>> GetAllAsync();
         Task UpdateAsync(TEntity obj);

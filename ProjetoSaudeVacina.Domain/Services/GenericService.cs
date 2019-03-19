@@ -16,10 +16,10 @@ namespace ProjetoSaudeVacina.Domain.Services
             _repository = repository;
         }
 
-        //public async Task AddAsync(TEntity obj)
-        //{
-        //    await _repository.AddAsync(obj);
-        //}
+        public async Task AddAsync(TEntity obj)
+        {
+            await _repository.AddAsync(obj);
+        }
 
         public void Dispose()
         {
